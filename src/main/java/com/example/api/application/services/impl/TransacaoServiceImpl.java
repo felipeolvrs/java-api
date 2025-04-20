@@ -2,6 +2,7 @@ package com.example.api.application.services.impl;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,8 @@ public class TransacaoServiceImpl implements TransacaoService {
         this.repository = repository;
     }
 
-    public Transacao salvar(TransacaoDTO dto) {
+    @Override
+    public Transacao salvarTransacao(TransacaoDTO dto) {
 
         if (dto == null || dto.getValor() == null || dto.getDataHora() == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Campos obrigatórios ausentes");
@@ -45,4 +47,10 @@ public class TransacaoServiceImpl implements TransacaoService {
 
         return transacao;
     }
+
+    @Override
+    public List<Transacao> listarTransacoes() {
+        return repository.listarTransacoes();
+    }
+
 }
