@@ -1,7 +1,12 @@
 package com.example.api.application.services.impl;
 
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.api.application.dto.TransacaoDTO;
 import com.example.api.application.models.Transacao;
@@ -19,8 +24,23 @@ public class TransacaoServiceImpl implements TransacaoService {
     }
 
     public Transacao salvar(TransacaoDTO dto) {
-        Transacao transacao = new Transacao();
 
+        if (dto == null || dto.getValor() == null || dto.getDataHora() == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Campos obrigatórios ausentes");
+        }
+
+        if (dto.getValor().compareTo(BigDecimal.ZERO) < 0) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Valor não pode ser negativo.");
+        }
+
+        if( dto.getDataHora().isAfter(OffsetDateTime.now())){
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Data não pode ser no futuro");
+
+        }
+        
+        Transacao transacao = new Transacao();
+        transacao.setDataHora(dto.getDataHora());
+        transacao.setValor(dto.getValor());
         repository.adicionarTransacao(transacao);
 
         return transacao;
