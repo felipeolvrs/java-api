@@ -53,4 +53,9 @@ public class TransacaoServiceImpl implements TransacaoService {
         return repository.listarTransacoes();
     }
 
+    public void deletarTodasTransacoes() {
+    repository.deletarTodasTransacoes();
+}
+
+
 }

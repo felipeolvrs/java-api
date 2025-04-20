@@ -24,4 +24,8 @@ public class TransacaoRepository {
     public ArrayList<Transacao> listarTransacoes() {
         return this.lista;
     }
+
+    public void deletarTodasTransacoes(){
+        lista.clear();
+    }
 }
