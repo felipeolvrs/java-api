@@ -26,7 +26,7 @@ public class EstatisticaServiceImpl implements EstatisticaService {
     @Override
     public EstatisticaDTO calcularEstatisticas() {
         OffsetDateTime agora = OffsetDateTime.now();
-        OffsetDateTime limite = agora.minusMinutes(10); 
+        OffsetDateTime limite = agora.minusSeconds(60);
 
 
         List<Transacao> ultimasTransacoes = repository.findByDataHoraAfter(limite);
@@ -50,10 +50,6 @@ public class EstatisticaServiceImpl implements EstatisticaService {
 
         int count = ultimasTransacoes.size();
         BigDecimal avg = count > 0 ? sum.divide(BigDecimal.valueOf(count), 3, RoundingMode.HALF_UP) : BigDecimal.ZERO;
-
-        System.out.println("Soma: " + sum);
-System.out.println("Valor mínimo: " + min);
-System.out.println("Valor máximo: " + max);
 
         EstatisticaDTO estatistica = new EstatisticaDTO();
         estatistica.setCount(count);
