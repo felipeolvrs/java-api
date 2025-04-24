@@ -1,4 +1,4 @@
-package com.example.api.application.services;
+package com.example.api.application.services.Interface;
 
 import java.util.List;
 

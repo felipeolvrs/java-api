@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.api.application.dto.TransacaoDTO;
 import com.example.api.application.models.Transacao;
-import com.example.api.application.services.TransacaoService;
+import com.example.api.application.services.Interface.TransacaoService;
 
 @RestController
 @RequestMapping("/transacao")

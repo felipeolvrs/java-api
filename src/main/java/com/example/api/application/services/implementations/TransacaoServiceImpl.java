@@ -1,4 +1,4 @@
-package com.example.api.application.services.impl;
+package com.example.api.application.services.implementations;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -12,7 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.example.api.application.dto.TransacaoDTO;
 import com.example.api.application.models.Transacao;
 import com.example.api.application.repository.TransacaoRepository;
-import com.example.api.application.services.TransacaoService;
+import com.example.api.application.services.Interface.TransacaoService;
 
 @Service
 public class TransacaoServiceImpl implements TransacaoService {

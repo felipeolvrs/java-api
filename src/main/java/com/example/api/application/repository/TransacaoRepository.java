@@ -1,31 +1,40 @@
 package com.example.api.application.repository;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.example.api.application.dto.EstatisticaDTO;
 import com.example.api.application.models.Transacao;
-
 
 @Repository
 public class TransacaoRepository {
-    private ArrayList<Transacao> lista;
-    private static long contadorId = 1;
 
-    public TransacaoRepository() {
-        this.lista = new ArrayList<>();
-    }
+    private final List<Transacao> lista = new ArrayList<>();
+    private static long contadorId = 1;
 
     public void adicionarTransacao(Transacao transacao) {
         transacao.setId(contadorId++);
-        this.lista.add(transacao);
+        lista.add(transacao);
     }
 
-    public ArrayList<Transacao> listarTransacoes() {
-        return this.lista;
+    public List<Transacao> listarTransacoes() {
+        return new ArrayList<>(lista); 
     }
 
-    public void deletarTodasTransacoes(){
+    public void deletarTodasTransacoes() {
         lista.clear();
+    }
+
+    public List<Transacao> findByDataHoraAfter(OffsetDateTime limite) {
+        List<Transacao> recentes = new ArrayList<>();
+        for (Transacao transacao : lista) {
+            if (transacao.getDataHora().isAfter(limite)) {
+                recentes.add(transacao);
+            }
+        }
+        return recentes;
     }
 }
