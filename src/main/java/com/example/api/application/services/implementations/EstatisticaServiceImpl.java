@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.api.application.dto.EstatisticaDTO;
+import com.example.api.application.dto.PeriodoDTO;
 import com.example.api.application.models.Transacao;
 import com.example.api.application.repository.TransacaoRepository;
 import com.example.api.application.services.Interface.EstatisticaService;
@@ -58,5 +59,42 @@ public class EstatisticaServiceImpl implements EstatisticaService {
 
 
         return estatistica;
+    }
+
+
+    @Override
+    public EstatisticaDTO calcularEstatisticasPorPeriodo(PeriodoDTO periodo){
+        List<Transacao> transacoes = repository.findByDataHoraBetween(periodo.getDataInicial(), periodo.getDataFinal());
+
+        BigDecimal sum = BigDecimal.ZERO;
+        BigDecimal min = null;
+        BigDecimal max = null;
+
+        for(Transacao transacao : transacoes){
+            BigDecimal valor = transacao.getValor();
+            sum = sum.add(valor);
+
+            if(min == null || min.compareTo(min) < 0 ){
+                min = valor;
+            }
+
+            if(max == null || max.compareTo(max) > 0) {
+                max = valor;
+            }
+        }
+
+            int count = transacoes.size();
+
+            BigDecimal avg = count > 0 ? sum.divide(BigDecimal.valueOf(count), 3, RoundingMode.HALF_UP) : BigDecimal.ZERO;
+
+            EstatisticaDTO estatistica = new EstatisticaDTO();
+            estatistica.setCount(count);
+            estatistica.setSum(sum);
+            estatistica.setAvg(avg);
+            estatistica.setMin(min != null ? min : BigDecimal.ZERO);
+            estatistica.setMax(max != null ? max : BigDecimal.ZERO);
+
+            return estatistica;
+        
     }
 }
