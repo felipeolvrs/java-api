@@ -3,6 +3,7 @@ package com.example.api.application.repository;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
@@ -47,6 +48,11 @@ public class TransacaoRepository {
         return lista.stream()
         .filter(t -> t.getDataHora().isAfter(dataInicial) && t.getDataHora().isBefore(dataFinal))
         .collect(Collectors.toList());
+    }
+
+    public Optional<Transacao> findLastTransacao(){
+        return lista.stream()
+        .max((t1, t2) -> t1.getDataHora().compareTo(t2.getDataHora()));
     }
 
 
