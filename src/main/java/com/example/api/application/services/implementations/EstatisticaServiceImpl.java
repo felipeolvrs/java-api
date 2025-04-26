@@ -2,7 +2,7 @@ package com.example.api.application.services.implementations;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +25,9 @@ public class EstatisticaServiceImpl implements EstatisticaService {
 
     @Override
     public EstatisticaDTO calcularEstatisticas() {
-        OffsetDateTime agora = OffsetDateTime.now();
-        OffsetDateTime limite = agora.minusSeconds(60);
+        LocalDateTime  limite = LocalDateTime.now();
+        List<Transacao> ultimasTransacoes = repository.findByDataHoraAfter(limite.minusSeconds(60));
 
-
-        List<Transacao> ultimasTransacoes = repository.findByDataHoraAfter(limite);
 
         BigDecimal sum = BigDecimal.ZERO;
         BigDecimal min = null;

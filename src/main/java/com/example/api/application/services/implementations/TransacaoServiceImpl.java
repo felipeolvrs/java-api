@@ -1,7 +1,7 @@
 package com.example.api.application.services.implementations;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,26 +27,24 @@ public class TransacaoServiceImpl implements TransacaoService {
     @Override
     public Transacao salvarTransacao(TransacaoDTO dto) {
 
-        if (dto == null || dto.getValor() == null || dto.getDataHora() == null){
+        if (dto == null || dto.getValor() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Campos obrigatórios ausentes");
         }
-
+    
         if (dto.getValor().compareTo(BigDecimal.ZERO) < 0) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Valor não pode ser negativo.");
         }
-
-        if( dto.getDataHora().isAfter(OffsetDateTime.now())){
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Data não pode ser no futuro");
-
-        }
-        
         Transacao transacao = new Transacao();
-        transacao.setDataHora(dto.getDataHora());
+        
+        transacao.setDataHora(LocalDateTime.now());
+        
         transacao.setValor(dto.getValor());
+        
         repository.adicionarTransacao(transacao);
-
+    
         return transacao;
     }
+    
 
     @Override
     public List<Transacao> listarTransacoes() {

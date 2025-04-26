@@ -1,12 +1,12 @@
 package com.example.api.application.repository;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.example.api.application.dto.EstatisticaDTO;
+
 import com.example.api.application.models.Transacao;
 
 @Repository
@@ -28,7 +28,7 @@ public class TransacaoRepository {
         lista.clear();
     }
 
-    public List<Transacao> findByDataHoraAfter(OffsetDateTime limite) {
+    public List<Transacao> findByDataHoraAfter(LocalDateTime  limite) {
         List<Transacao> recentes = new ArrayList<>();
         for (Transacao transacao : lista) {
             if (transacao.getDataHora().isAfter(limite)) {
@@ -36,5 +36,10 @@ public class TransacaoRepository {
             }
         }
         return recentes;
+    }
+
+    public List<Transacao> findByDataHoraBefore(LocalDateTime  limite) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findByDataHoraBefore'");
     }
 }

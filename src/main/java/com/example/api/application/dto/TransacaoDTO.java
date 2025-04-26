@@ -1,7 +1,8 @@
 package com.example.api.application.dto;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
+
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,5 +13,5 @@ import lombok.Setter;
 public class TransacaoDTO {
     
     private BigDecimal valor;
-    private OffsetDateTime dataHora;
+    private LocalDateTime  dataHora;
 }
