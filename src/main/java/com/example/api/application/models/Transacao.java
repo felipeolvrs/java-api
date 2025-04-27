@@ -2,7 +2,6 @@ package com.example.api.application.models;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

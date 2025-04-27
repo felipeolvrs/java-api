@@ -112,4 +112,31 @@ public class EstatisticaServiceImpl implements EstatisticaService {
         
             return ultimaTransacao;
     }
+
+
+    @Override
+    public EstatisticaDTO removerPorPeriodo(LocalDateTime dataInicial, LocalDateTime dataFinal) {
+        List<Transacao> transacoes = repository.findByDataHoraBetween(dataInicial, dataFinal);
+    
+        if (transacoes.isEmpty()) {
+            return new EstatisticaDTO();
+        }
+    
+        EstatisticaDTO estatistica = new EstatisticaDTO();
+        estatistica.setCount(transacoes.size());
+        estatistica.setSum(transacoes.stream().map(Transacao::getValor).reduce(BigDecimal.ZERO, BigDecimal::add));
+        estatistica.setAvg(estatistica.getSum().divide(BigDecimal.valueOf(estatistica.getCount()), BigDecimal.ROUND_HALF_UP));
+        estatistica.setMin(transacoes.stream().map(Transacao::getValor).min(BigDecimal::compareTo).orElse(BigDecimal.ZERO));
+        estatistica.setMax(transacoes.stream().map(Transacao::getValor).max(BigDecimal::compareTo).orElse(BigDecimal.ZERO));
+    
+    
+        repository.clearDataBetween(dataInicial, dataFinal);
+    
+        return estatistica;
+    }
+    
+    
+    
+    
+
 }

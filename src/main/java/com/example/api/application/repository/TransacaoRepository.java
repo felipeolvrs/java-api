@@ -13,27 +13,26 @@ import com.example.api.application.models.Transacao;
 @Repository
 public class TransacaoRepository {
 
-    // Lista para armazenar as transações
+
     private final List<Transacao> lista = new ArrayList<>();
     private static long contadorId = 1;
 
-    // Método para adicionar uma transação à lista
+
     public void adicionarTransacao(Transacao transacao) {
         transacao.setId(contadorId++);
         lista.add(transacao);
     }
 
-    // Método para listar todas as transações
+
     public List<Transacao> listarTransacoes() {
         return new ArrayList<>(lista); 
     }
 
-    // Método para limpar todas as transações
+
     public void deletarTodasTransacoes() {
         lista.clear();
     }
 
-    // Método para buscar transações ocorridas após uma data limite
     public List<Transacao> findByDataHoraAfter(LocalDateTime limite) {
         List<Transacao> recentes = new ArrayList<>();
         for (Transacao transacao : lista) {
@@ -54,6 +53,11 @@ public class TransacaoRepository {
         return lista.stream()
         .max((t1, t2) -> t1.getDataHora().compareTo(t2.getDataHora()));
     }
+
+    public void clearDataBetween(LocalDateTime dataInicial, LocalDateTime dataFinal) {
+        lista.removeIf(t -> t.getDataHora().compareTo(dataInicial) >= 0 && t.getDataHora().compareTo(dataFinal) <= 0);
+    }
+    
 
 
 
