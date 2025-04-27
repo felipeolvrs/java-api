@@ -112,8 +112,7 @@ public class EstatisticaServiceImpl implements EstatisticaService {
             );
         
             return ultimaTransacao;
-    }
-
+    }git
 
     @Override
     public EstatisticaDTO removerPorPeriodo(LocalDateTime dataInicial, LocalDateTime dataFinal) {

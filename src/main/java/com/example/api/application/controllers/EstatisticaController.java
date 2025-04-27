@@ -48,6 +48,22 @@ public class EstatisticaController {
         
     }
 
+
+    @DeleteMapping("/periodo")
+    public ResponseEntity<EstatisticaDTO> excluirTransacaoPorPeriodo(
+    @RequestParam("dataInicial") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataInicial,
+    @RequestParam("dataFinal") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataFinal) {
+
+    EstatisticaDTO resposta = estatisticaService.removerPorPeriodo(dataInicial, dataFinal);
+
+
+    if (resposta == null) {
+        return ResponseEntity.noContent().build();  
+    }
+
+    return ResponseEntity.ok(resposta);  
+}
+
     
 }
 
