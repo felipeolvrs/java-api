@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,33 +38,28 @@ public class EstatisticaController {
     }
 
     @GetMapping("/ultima")
-    public ResponseEntity<Transacao> getUltimaTransacao(){
-        Optional<Transacao> ultima =  estatisticaService.findLastTransacao();
-        
-        if(ultima.isEmpty()){
+    public ResponseEntity<Transacao> getUltimaTransacao() {
+        Optional<Transacao> ultima = estatisticaService.findLastTransacao();
+
+        if (ultima.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        
+
         return new ResponseEntity<>(ultima.get(), HttpStatus.OK);
-        
     }
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/periodo")
     public ResponseEntity<EstatisticaDTO> excluirTransacaoPorPeriodo(
-    @RequestParam("dataInicial") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataInicial,
-    @RequestParam("dataFinal") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataFinal) {
+            @RequestParam("dataInicial") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataInicial,
+            @RequestParam("dataFinal") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataFinal) {
 
-    EstatisticaDTO resposta = estatisticaService.removerPorPeriodo(dataInicial, dataFinal);
+        EstatisticaDTO resposta = estatisticaService.removerPorPeriodo(dataInicial, dataFinal);
 
+        if (resposta == null) {
+            return ResponseEntity.noContent().build();
+        }
 
-    if (resposta == null) {
-        return ResponseEntity.noContent().build();  
+        return ResponseEntity.ok(resposta);
     }
-
-    return ResponseEntity.ok(resposta);  
 }
-
-    
-}
-

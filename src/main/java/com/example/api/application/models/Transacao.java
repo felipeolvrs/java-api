@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,13 +16,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Transacao {
 
-    private Long id;
+    private Integer id;
     private BigDecimal valor;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dataHora;
 
+    @NotBlank(message = "O nome é obrigatório")
     private String nome;
+
+    @Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "CPF deve ter o formato XXX.XXX.XXX-XX")
     private String cpf;
 
     public Transacao(com.example.api.application.dto.TransacaoDTO dto) {

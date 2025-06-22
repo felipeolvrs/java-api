@@ -33,14 +33,12 @@ public class Banco3ServiceImpl implements TransacaoService {
 
     @Override
     public void deletarTodasTransacoes() {
-        repository.deletarTodasTransacoes(); // comportamento padrão
+        repository.deletarTodasTransacoes();
     }
 
-    // Método adicional específico para Banco3: exige senha
+    @Override
     public void deletarPorPeriodo(LocalDateTime inicio, LocalDateTime fim, String senha) {
-        if (!"BD3@789".equals(senha)) {
-            throw new RuntimeException("Senha inválida para Banco 3");
-        }
+
         repository.clearDataBetween(inicio, fim);
     }
 }
