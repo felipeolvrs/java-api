@@ -47,17 +47,11 @@ public class Banco1ServiceImpl implements TransacaoService {
 
     @Override
     public void deletarPorPeriodo(LocalDateTime inicio, LocalDateTime fim, String senha) {
-        // Verifique se a senha está correta
-        if (!"BD1@123".equals(senha)) {
-            throw new RuntimeException("Senha incorreta");
-        }
 
-        // Filtra as transações dentro do período informado
         List<Transacao> transacoesParaDeletar = repository.listarTransacoes().stream()
-                .filter(t -> t.getDataHora().isAfter(inicio) && t.getDataHora().isBefore(fim))
+                .filter(t -> !t.getDataHora().isBefore(inicio) && !t.getDataHora().isAfter(fim))
                 .collect(Collectors.toList());
 
-        // Remove as transações encontradas
         transacoesParaDeletar.forEach(t -> repository.listarTransacoes().remove(t));
     }
 }

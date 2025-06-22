@@ -24,7 +24,7 @@ public class TransacaoServiceFactory implements TransacaoService {
         this.banco3Service = banco3Service;
     }
 
-    private TransacaoService getServiceByBanco(String banco) {
+    public TransacaoService getServiceByBanco(String banco) {
         if (banco == null) {
             throw new IllegalArgumentException("Banco não informado");
         }
@@ -60,10 +60,15 @@ public class TransacaoServiceFactory implements TransacaoService {
         throw new UnsupportedOperationException("Use o método específico por banco");
     }
 
-    public void deletarPorPeriodoBanco(String banco, LocalDateTime inicio, LocalDateTime fim, String senha) {
-        if (!"BD1@123".equals(senha)) {
-            throw new RuntimeException("Senha inválida");
-        }
-        getServiceByBanco(banco).deletarPorPeriodo(inicio, fim, senha);
+    public List<Transacao> listarTransacoesPorBanco(String banco) {
+        return getServiceByBanco(banco).listarTransacoes();
+    }
+
+    public void deletarTodasTransacoesPorBanco(String banco) {
+        getServiceByBanco(banco).deletarTodasTransacoes();
+    }
+
+    public void deletarPorPeriodoPorBanco(String banco, LocalDateTime inicio, LocalDateTime fim) {
+        getServiceByBanco(banco).deletarPorPeriodo(inicio, fim, null);
     }
 }

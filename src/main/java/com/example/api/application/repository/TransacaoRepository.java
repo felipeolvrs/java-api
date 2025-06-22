@@ -17,10 +17,11 @@ public class TransacaoRepository {
     private static long contadorId = 1;
 
     public void adicionarTransacao(Transacao transacao) {
-        transacao.setId(contadorId++);
+        transacao.setId((int) contadorId++);
         lista.add(transacao);
     }
 
+    
     public List<Transacao> listarTransacoes() {
         return new ArrayList<>(lista);
     }
