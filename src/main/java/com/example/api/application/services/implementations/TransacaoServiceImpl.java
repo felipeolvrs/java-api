@@ -55,5 +55,11 @@ public class TransacaoServiceImpl implements TransacaoService {
     repository.deletarTodasTransacoes();
 }
 
+    @Override
+    public void deletarPorPeriodo(LocalDateTime inicio, LocalDateTime fim, String senha) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'deletarPorPeriodo'");
+    }
+
 
 }

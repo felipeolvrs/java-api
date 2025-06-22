@@ -7,22 +7,26 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-
 public class Transacao {
 
     private Long id;
     private BigDecimal valor;
+
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dataHora;
 
+    private String nome;
+    private String cpf;
+
+    public Transacao(com.example.api.application.dto.TransacaoDTO dto) {
+        this.valor = dto.getValor();
+        this.dataHora = dto.getDataHora();
+        this.nome = dto.getNome();
+        this.cpf = dto.getCpf();
+    }
 }

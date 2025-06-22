@@ -1,5 +1,6 @@
 package com.example.api.application.services.Interface;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.example.api.application.dto.TransacaoDTO;
@@ -12,5 +13,8 @@ public interface TransacaoService {
     List<Transacao> listarTransacoes();
 
     void deletarTodasTransacoes();
+
+    void deletarPorPeriodo(LocalDateTime inicio, LocalDateTime fim, String senha);
+
 
 }
